@@ -1,6 +1,12 @@
 <?php
 include_once("wordix.php");
-/*Apellido: Flores Aroca, Nombre: Esteban.
+/*Apellido: Arias, Nombre: Santiago.
+Legajo: FAI-4797. 
+Carrera:Tec. Uni. En Desarrollo Web. 
+Mail: santiago.arias@est.fi.uncoma.edu.ar. 
+Usuario Github: Santiago4797.
+
+Apellido: Flores Aroca, Nombre: Esteban.
 Legajo: FAI-4798. 
 Carrera:Tec. Uni. En Desarrollo Web. 
 Mail: esteban.aroca@est.fi.uncoma.edu.ar. 
