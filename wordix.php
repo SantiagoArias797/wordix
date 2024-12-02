@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* prueba
 La librería JugarWordix posee la definición de constantes y funciones necesarias
 para jugar al Wordix.
 Puede ser utilizada por cualquier programador para incluir en sus programas.
