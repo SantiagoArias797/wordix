@@ -44,7 +44,13 @@ function mostrarMenu(){
         echo"7) Agregar una palabra de 5 letras a Wordix \n";
         echo"\e[1;37;41m 8) SALIR \e[0m\n";
         echo"***************************************************\n";
-        echo"Ingrese la opcion: ";
+        echo"\nIngrese la opcion: ";
+}
+
+function registrarPartidas(&$partidasAlmacenadas,$datosDePartidas){
+    $partidasAlmacenadas[] = $datosDePartidas;
+
+    return $partidasAlmacenadas;
 }
 
 /* ****COMPLETAR***** */
@@ -62,6 +68,11 @@ $nombreUsuario;
 $respuestaContinuacion;
 $palabraAleatoria;
 $partida;
+$contadorDePartidas = 0;
+$partidas = array();
+$partidaAuscar;
+$primerPartidaGanadora;
+$numeroDeLaPartidaGanadora = 1; //indica el numero de la primer partida ganadora.
 
 //Proceso:
 
@@ -74,79 +85,153 @@ do {
     echo"ingrese su nombre de usuario: ";
     $nombreUsuario = trim(fgets(STDIN));
     escribirMensajeBienvenida($nombreUsuario);
-    mostrarMenu();
-    $opcion = trim(fgets(STDIN));
 
-    switch ($opcion) {
-        case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-            $palabraElegida = leerPalabra5letras();
-            
-            $partida = jugarWordix($palabraElegida, $nombreUsuario);
-            
-            echo "¿Desea seguir jugando? (si/no) ";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
+    
 
+    do {
 
-            break;
-        case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-            $palabraAleatoria = cargarColeccionPalabras();
-            $claveAleatoria = array_rand($palabraAleatoria);
-            $partida = jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
+        mostrarMenu();
+        $opcion = trim(fgets(STDIN));
 
-            echo "¿Desea seguir jugando? (si/no)";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
+        switch ($opcion) {
+            case 1: 
+                //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
+                $palabraElegida = leerPalabra5letras();
 
-            break;
-        case 3: 
+                $partida = jugarWordix($palabraElegida, $nombreUsuario);
 
-            
-            echo "Palabra: " . $partida["palabraWordix"]."\n";
-            echo "Jugador: " . $partida["jugador"]."\n";
-            echo "Intentos: " . $partida["intentos"]."\n";
-            echo "Puntaje: " . $partida["puntaje"]."\n";
+                registrarPartidas($partidas,$partida);
 
-            echo "¿Desea seguir jugando? (si/no)";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
+                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) == "si"){
+                    $opcion = 9; 
+                }else{
+                    $opcion = 8;
+                }
 
-            break;
-
-        case 4:
+                $contadorDePartidas = $contadorDePartidas + 1;
 
 
+                break;
+            case 2: 
+                //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
+                $palabraAleatoria = cargarColeccionPalabras();
+                $claveAleatoria = array_rand($palabraAleatoria);
+                $partida = jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
 
-            break;
+                registrarPartidas($partidas,$partida);
 
-        case 5:
+                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) == "si"){
+                    $opcion = 9; 
+                }else{
+                    $opcion = 8;
+                }
 
-            break;
+                $contadorDePartidas = $contadorDePartidas + 1;
+                
+                break;
 
-        case 6:
+            case 3:
+                echo "\nIngrese el numero de la partida a buscar (entre: 1 y ".$contadorDePartidas."): ";
+                $partidaBuscar = solicitarNumeroEntre(1,$contadorDePartidas);
 
-            break;
+                if ($partidaBuscar >= 1 && $partidaBuscar <= $contadorDePartidas){
+                    
+                    $partidaEncontrada = $partidas[$partidaBuscar-1];
+                    echo "***************************************************\n";
+                    echo "Partida numero ". $partidaBuscar ."\n";
+                    echo "Jugador: ". $partidaEncontrada["jugador"]. "\n";
+                    echo "Palabra Wordix: ".$partidaEncontrada["palabraWordix"]. "\n";
+                    echo "Puntaje: ".$partidaEncontrada["puntaje"]. "\n";
+                    echo "Intentos: ".$partidaEncontrada["intentos"]. "\n";
+                    echo "***************************************************\n";
 
-        case 7: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 7
-            $palabraElegida = leerPalabra5Letras();
-            $palabraAleatoria[] = $palabraElegida;
+                }else{
+                    echo "No se encontro la partida.\n";
+                }
+                
 
-            // print_r ($palabraAleatoria); //prueba de dato arreglo.//
-            
-            echo "¿Desea seguir jugando? (si/no)";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
-            break;
+                //Salir al menu o del juego.
+                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) == "si"){
+                    $opcion = 9; 
+                }else{
+                    $opcion = 8;
+                }
+
+                break;
+
+            case 4:
+                // Mostrar primera partida ganadora.
+
+                foreach ($partidas as $puntos) {
+                    if($puntos["puntaje"] > 0){
+                        $primerPartidaGanadora = $puntos;
+                        break;    
+                    }
+                    $numeroDeLaPartidaGanadora = $numeroDeLaPartidaGanadora + 1;
+                }
+
+                if($primerPartidaGanadora){
+                    echo "***************************************************\n";
+                    echo "-------------PRIMER PARTIDA GANADORA---------------\n";
+                    echo "Partida numero ".$numeroDeLaPartidaGanadora."\n";
+                    echo "Jugador: ". $primerPartidaGanadora["jugador"]. "\n";
+                    echo "Palabra Wordix: ".$primerPartidaGanadora["palabraWordix"]. "\n";
+                    echo "Puntaje: ".$primerPartidaGanadora["puntaje"]. "\n";
+                    echo "Intentos: ".$primerPartidaGanadora["intentos"]. "\n";
+                    echo "***************************************************\n";
+                }else{
+                    echo "No hay partida ganadora\n";
+                }
+                
+                //Salir al menu o del juego.
+                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) == "si"){
+                    $opcion = 9; 
+                }else{
+                    $opcion = 8;
+                }
+
+                break;
+
+            case 5:
+
+                break;
+
+            case 6:
+
+                break;
+
+            case 7: 
+                //completar qué secuencia de pasos ejecutar si el usuario elige la opción 7
+                $palabraElegida = leerPalabra5Letras();
+                $palabraAleatoria[] = $palabraElegida;
+
+                // print_r ($palabraAleatoria); //prueba de dato arreglo.//
+
+                //Salir al menu o del juego.
+                echo "¿Desea seguir jugando con este usuario? (si/no): ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) == "si"){
+                    $opcion = 9; 
+                }else{
+                    $opcion = 8;
+                }
+                break;
+        }
+    } while($opcion != 8);
+
+    echo "¿Desea seguir jugando? (si/no): ";
+    $respuestaContinuacion = trim(fgets(STDIN));
+    if(strtolower($respuestaContinuacion) != "si"){
+        $opcion = 8; 
+    }else{
+        $opcion = 9;
     }
 } while ($opcion != 8);

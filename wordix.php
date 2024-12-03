@@ -26,11 +26,18 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
 
-/**/
+/**
+ * Este modulo se usa en el algoritmo principal del archivo programaAriasFlores.php
+ * para determinar el limite del arreglo buscaria su partaida,al cual le embiamos
+ * desde el algoritmo mencionado el valor minimo que toma nuestro arreglo y
+ * su valor maximo como parametro.
+ * @param int $min = 1;
+ * @param int $max = $contadorDePartida;
+ */
+
 function solicitarNumeroEntre($min, $max)
 {
     //int $numero
-
     $numero = trim(fgets(STDIN));
 
     if (is_numeric($numero)) { //determina si un string es un número. puede ser float como entero.
