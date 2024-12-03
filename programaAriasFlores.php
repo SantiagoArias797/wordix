@@ -71,56 +71,79 @@ do {
     mostrarMenu();
     $opcion = trim(fgets(STDIN));
 
-    switch ($opcion) {
-        case 1: 
+        switch ($opcion) {
+            case 1: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-            $palabraElegida = leerPalabra5letras();
-            jugarWordix($palabraElegida, $nombreUsuario);
+                $palabraElegida = leerPalabra5letras();
+                jugarWordix($palabraElegida, $nombreUsuario);
             
-            echo "¿Desea seguir jugando? (si/no) ";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
+                echo "¿Desea seguir jugando? (si/no) ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) != "si"){
+                    $opcion = 8; 
+                }
 
 
-            break;
-        case 2: 
+                break;
+            case 2: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-            $palabraAleatoria = cargarColeccionPalabras();
-            $claveAleatoria = array_rand($palabraAleatoria);
-            jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
+                $palabraAleatoria = cargarColeccionPalabras();
+                $claveAleatoria = array_rand($palabraAleatoria);
+                jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
 
-            echo "¿Desea seguir jugando? (si/no)";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
+                echo "¿Desea seguir jugando? (si/no)";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) != "si"){
+                    $opcion = 8; 
+                }
 
-            break;
-        case 3: 
+                break;
+            case 3: 
 
             
-            echo "¿Desea seguir jugando? (si/no) ";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
+                echo "¿Desea seguir jugando? (si/no) ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) != "si"){
+                    $opcion = 8; 
+                }
 
-            break;
+                break;
+            case 4:
+                    
+                    
+                    
+                break;
+            case 5:
+                
+                echo "¿Desea seguir jugando? (si/no) ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) != "si"){
+                    $opcion = 8; 
+                }
 
-        case 7: 
+                break;
+            case 6:
+                
+                echo "¿Desea seguir jugando? (si/no) ";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) != "si"){
+                    $opcion = 8; 
+                }
+                
+                break;
+            case 7: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 7
-            $palabraElegida = leerPalabra5Letras();
-            $palabraAleatoria[] = $palabraElegida;
+                $palabraElegida = leerPalabra5Letras();
+                $palabraAleatoria[] = $palabraElegida;
 
             // print_r ($palabraAleatoria); //prueba de dato arreglo.//
             
-            echo "¿Desea seguir jugando? (si/no)";
-            $respuestaContinuacion = trim(fgets(STDIN));
-            if(strtolower($respuestaContinuacion) != "si"){
-                $opcion = 8; 
-            }
-            break;
+                echo "¿Desea seguir jugando? (si/no)";
+                $respuestaContinuacion = trim(fgets(STDIN));
+                if(strtolower($respuestaContinuacion) != "si"){
+                    $opcion = 8; 
+                }
+                break;
     }
+    
 } while ($opcion != 8);

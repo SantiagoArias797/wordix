@@ -26,7 +26,10 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
 
-/**/
+/*Este modulo se usa en el algoritmo principal del archivo programaAriasFlores para
+determinar el limite del arreglo donde el usuario buscaria su partida. Al cual le
+enviamos desde el algorirmo mencionado el valor $min = 1 que toma nuestro arreglo y su 
+valor $max = $contadorDePartidas como parametro  */
 function solicitarNumeroEntre($min, $max)
 {
     //int $numero
@@ -325,12 +328,10 @@ function esIntentoGanado($estructuraPalabraIntento)
     return $ganado;
 }
 
-/**
- * ****COMPLETAR***** documentación de la intefaz
- */
-function obtenerPuntajeWordix($cantidadIntentos,$palabra)/*Como parametros de este modulo usamos @param int $cantidadIntentos 
+/*Como parametros de este modulo usamos @param int $cantidadIntentos 
 para averiguar los puntos obtenidos por la ronda en que ganaron la partida y @param string $palabra para analizar los puntos con 
 las letras acertadas por el usuario dependiendo del puntaje que otorgue cada una.*/
+function obtenerPuntajeWordix($cantidadIntentos,$palabra) 
 {
     $letra = ''; // char $letra  
     $puntos = 0; // int $puntos
