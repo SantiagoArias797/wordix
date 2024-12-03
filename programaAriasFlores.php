@@ -81,7 +81,8 @@ do {
         case 1: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
             $palabraElegida = leerPalabra5letras();
-            jugarWordix($palabraElegida, $nombreUsuario);
+            
+            $partida = jugarWordix($palabraElegida, $nombreUsuario);
             
             echo "¿Desea seguir jugando? (si/no) ";
             $respuestaContinuacion = trim(fgets(STDIN));
@@ -95,7 +96,7 @@ do {
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
             $palabraAleatoria = cargarColeccionPalabras();
             $claveAleatoria = array_rand($palabraAleatoria);
-            jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
+            $partida = jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
 
             echo "¿Desea seguir jugando? (si/no)";
             $respuestaContinuacion = trim(fgets(STDIN));
@@ -107,11 +108,30 @@ do {
         case 3: 
 
             
-            echo "¿Desea seguir jugando? (si/no) ";
+            echo "Palabra: " . $partida["palabraWordix"]."\n";
+            echo "Jugador: " . $partida["jugador"]."\n";
+            echo "Intentos: " . $partida["intentos"]."\n";
+            echo "Puntaje: " . $partida["puntaje"]."\n";
+
+            echo "¿Desea seguir jugando? (si/no)";
             $respuestaContinuacion = trim(fgets(STDIN));
             if(strtolower($respuestaContinuacion) != "si"){
                 $opcion = 8; 
             }
+
+            break;
+
+        case 4:
+
+
+
+            break;
+
+        case 5:
+
+            break;
+
+        case 6:
 
             break;
 
