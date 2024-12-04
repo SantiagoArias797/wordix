@@ -46,7 +46,11 @@ function mostrarMenu(){
         echo"***************************************************\n";
         echo"\nIngrese la opcion: ";
 }
-
+/*Este modulo muestra la cantidad total de partidas totales, la cantidad de victorias, su puntanje total 
+y el intento en el que gano en cada una de sus partidas.
+Este modulo recibe como parametro el arreglo $partidas y $nombreDelJugador, para analizar el arreglo con 
+una partida jugada por el mismo jugador. Se analiza su nombre y si es igual, se almacenan ciertos datos.
+Solo retorna valores a traves de la pantalla.*/
 function mostrarPartidasDeUnJugador($partidas,$nombreDelJugador){
 
     $encontrado = false;
@@ -115,6 +119,9 @@ function mostrarPartidasDeUnJugador($partidas,$nombreDelJugador){
 
 }
 
+/*Es un modulo que se usa para ordenar un arreglo con la funcion uasort.
+Este modulo usa como parametros $a y $b para comparar un jugador con el otro.
+y retorna 0,1 o -1.*/
 function cmp($a, $b){
     if ($a["palabraWordix"] == $b["palabraWordix"] && $a["jugador"] == $b["jugador"]){
         $orden = 0;
@@ -134,27 +141,22 @@ function cmp($a, $b){
 /**************************************/
 
 //Declaración de variables:
-
-//Inicialización de variables:
-$opcion=0;
 $palabraElegida;
 $nombreUsuario;
 $respuestaContinuacion;
 $palabraAleatoria;
-$partida;
-$contadorDePartidas = 0;
-$partidas = array(); // Este arreglo guarda todas las partidas jugadas
 $partidaAuscar;
 $primerPartidaGanadora;
+//Inicialización de variables:
+$partida;
+$opcion=0;
+$contadorDePartidas = 0;
+$partidas = array(); // Este arreglo guarda todas las partidas jugadas
 $numeroDeLaPartidaGanadora = 1; //indica el numero de la primer partida ganadora.
-
 //Proceso:
-
 //$partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
-
-
 do {
     echo"ingrese su nombre de usuario: ";
     $nombreUsuario = trim(fgets(STDIN));
