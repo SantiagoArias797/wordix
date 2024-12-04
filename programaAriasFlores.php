@@ -95,10 +95,11 @@ function mostrarPartidasDeUnJugador($partidas,$nombreDelJugador){
             $encontrado = true;
         }
     }
-
-    $winrate = ($victorias / $partidasTotales ) * 100;
     
     if($encontrado){
+        
+        $winrate = ($victorias / $partidasTotales ) * 100;
+        
         echo "\n***************************************************\n";
         echo "Nombre del Jugador: ".$nombreDelJugador."\n";
         echo "Cantidad total de partidas: ".$partidasTotales."\n";
