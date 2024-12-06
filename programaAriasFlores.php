@@ -20,6 +20,7 @@ Usuario Github: EstebanEmanuel.*/
  * Obtiene una colección de palabras
  * @return array
  */
+
 function cargarColeccionPalabras()
 {
     $coleccionPalabras = [
@@ -170,6 +171,7 @@ $respuestaContinuacion;
 $palabraAleatoria;
 $partidaAuscar;
 $primerPartidaGanadora;
+$orden;
 //Inicialización de variables:
 $partida;
 $opcion=0;
@@ -192,18 +194,9 @@ do {
 
         switch ($opcion) {
             case 1: 
-                //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-                $palabraElegida = leerPalabra5letras();
 
-                //Guarda la partida jugada en $partida
-                $partida = jugarWordix($palabraElegida, $nombreUsuario);
-
-                //Guarda la partida jugada en el arreglo $partidas
-                array_push($partidas,$partida);
-
-                $contadorDePartidas = $contadorDePartidas + 1;
-
-                $opcion = jugarUsuario($opcion);
+                
+            $opcion = jugarUsuario($opcion);
 
                 break;
             case 2: 
@@ -241,31 +234,41 @@ do {
 
             case 4:
                 
-                // Mostrar primera partida ganadora.
-                foreach ($partidas as $puntos) {
-                    if($puntos["puntaje"] > 0){
-                        $primerPartidaGanadora = $puntos;
-                        break;    
-                    }
-                    $numeroDeLaPartidaGanadora = $numeroDeLaPartidaGanadora + 1;
-                }
+                $numeroDeLaPartidaGanadora = 0;  
+                $primerPartidaGanadora = [];  
+                $i = 0;  
+                $partidaGanadoraEncontrada = false;  
+            
+                
+                while ($i < count($partidas)) {
+                    $puntos = $partidas[$i];
 
-                if($primerPartidaGanadora){
+                    if ($puntos["puntaje"] > 0 && !$partidaGanadoraEncontrada) {
+                        $numeroDeLaPartidaGanadora = $i + 1; 
+                        $primerPartidaGanadora = $puntos;
+                        $partidaGanadoraEncontrada = true;  
+                    }
+            
+                    $i++; 
+                }
+            
+                
+                if ($partidaGanadoraEncontrada) {
                     echo "\n***************************************************\n";
-                    echo "-------------PRIMER PARTIDA GANADORA---------------\n";
-                    echo "Partida numero ".$numeroDeLaPartidaGanadora."\n";
-                    echo "Jugador: ". $primerPartidaGanadora["jugador"]. "\n";
-                    echo "Palabra Wordix: ".$primerPartidaGanadora["palabraWordix"]. "\n";
-                    echo "Puntaje: ".$primerPartidaGanadora["puntaje"]. "\n";
-                    echo "Intentos: ".$primerPartidaGanadora["intentos"]. "\n";
+                    echo "-------------PRIMERA PARTIDA GANADORA-------------\n";
+                    echo "Partida número " . $numeroDeLaPartidaGanadora . "\n";
+                    echo "Jugador: " . $primerPartidaGanadora["jugador"] . "\n";
+                    echo "Palabra Wordix: " . $primerPartidaGanadora["palabraWordix"] . "\n";
+                    echo "Puntaje: " . $primerPartidaGanadora["puntaje"] . "\n";
+                    echo "Intentos: " . $primerPartidaGanadora["intentos"] . "\n";
                     echo "***************************************************\n";
-                }else{
+                } else {
                     echo "No hay partida ganadora\n";
                 }
-                
+
                 $opcion = jugarUsuario($opcion);
-                
                 break;
+                
 
             case 5:
                 //Mostrar todas las partidas del jugador
@@ -310,7 +313,6 @@ do {
 
 /*
 Al momento de jugar, el usuario debe poder elegir la palabra a partir de un número específico. Ejemplo: Jugar con la palabra 1.
-Quitar los recorridos for - break por recorridos parciales.
 Verificar si un jugador ya jugó con esa palabra.
 No permitir agregar al arreglo una palabra que ya está en el arreglo.
 .*/
