@@ -342,13 +342,12 @@ las letras acertadas por el usuario dependiendo del puntaje que otorgue cada una
 function obtenerPuntajeWordix($cantidadIntentos,$palabra) 
 {
     $letra = ''; // char $letra  
-    $puntos = 0; // int $puntos
+    
+    $puntos = 7 - $cantidadIntentos;
     
     for($i = 0; $i < strlen($palabra); $i++){
         
         $letra = strtolower($palabra[$i]);
-        
-        $puntos = 7 - $cantidadIntentos;
         
         if($letra >= 'a' && $letra <= 'z'){
             
