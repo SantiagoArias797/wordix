@@ -121,17 +121,24 @@ function mostrarPartidasDeUnJugador($partidas,$nombreDelJugador){
 }
 
 /*Es un modulo que se usa para ordenar un arreglo con la funcion uasort.
-Este modulo usa como parametros $a y $b para comparar un jugador con el otro.
-y retorna 0,1 o -1.*/
+Este modulo usa como parametros $a y $b para comparar un jugador con el otro, 
+para luego organinizar las partidas en orden alfabetico 
+dependiendo de sus palabras jugadas. Retorna 0,1 o -1.*/
+
 function cmp($a, $b){
-    if ($a["palabraWordix"] == $b["palabraWordix"] && $a["jugador"] == $b["jugador"]){
-        $orden = 0;
-    }elseif ($a["palabraWordix"] < $b["palabraWordix"] && $a["jugador"] < $b["jugador"]) {
+    if ($a["jugador"] == $b["jugador"]){
+        
+        if ($a["palabraWordix"] < $b["palabraWordix"]){
+            
+            $orden = 0;
+        }
+    }elseif($a["jugador"] < $b["jugador"]){
+        
         $orden = -1;
     }else{
+        
         $orden = 1;
     }
-
     return $orden;
 }
 
