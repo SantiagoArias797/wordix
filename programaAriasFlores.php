@@ -31,7 +31,7 @@ function cargarColeccionPalabras()
 
     return ($coleccionPalabras);
 }
-/**Este modulo muestra el menu de seleccion */
+/*Este modulo muestra el menu de seleccion */
 function mostrarMenu(){
         echo"***************************************************\n";
         echo"Menu WORDIX! **\n";
@@ -45,6 +45,20 @@ function mostrarMenu(){
         echo"8)\e[1;37;41m SALIR \e[0m\n";
         echo"***************************************************\n";
         echo"\nIngrese la opcion: ";
+}
+/**/
+function jugarUsuario($opcion){
+    
+    echo "¿Desea seguir jugando con este usuario? (si/no): ";
+                
+    $respuestaContinuacion = trim(fgets(STDIN));
+    
+    if(strtolower($respuestaContinuacion) == "si"){
+        $opcion = 9; 
+    }else{
+        $opcion = 8;
+    }
+    return $opcion;
 }
 /*Este modulo muestra la cantidad total de partidas totales, la cantidad de victorias, su puntanje total 
 y el intento en el que gano en cada una de sus partidas.
@@ -142,6 +156,7 @@ function cmp($a, $b){
     return $orden;
 }
 
+
 /* ****COMPLETAR***** */
 
 /**************************************/
@@ -186,16 +201,9 @@ do {
                 //Guarda la partida jugada en el arreglo $partidas
                 array_push($partidas,$partida);
 
-                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
-
                 $contadorDePartidas = $contadorDePartidas + 1;
 
+                $opcion = jugarUsuario($opcion);
 
                 break;
             case 2: 
@@ -206,18 +214,8 @@ do {
 
                 array_push($partidas,$partida);
 
-                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
-
-                $contadorDePartidas = $contadorDePartidas + 1;
-                
-                break;
-
+                $opcion = jugarUsuario($opcion);                
+            
             case 3:
                 echo "\nIngrese el numero de la partida a buscar (entre: 1 y ".$contadorDePartidas."): ";
                 $partidaBuscar = solicitarNumeroEntre(1,$contadorDePartidas);
@@ -237,15 +235,7 @@ do {
                     echo "No se encontro la partida.\n";
                 }
                 
-
-                //Salir al menu o del juego.
-                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
+                $opcion = jugarUsuario($opcion);
 
                 break;
 
@@ -273,29 +263,15 @@ do {
                     echo "No hay partida ganadora\n";
                 }
                 
-                //Salir al menu o del juego.
-                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
-
+                $opcion = jugarUsuario($opcion);
+                
                 break;
 
             case 5:
                 //Mostrar todas las partidas del jugador
                 mostrarPartidasDeUnJugador($partidas,$nombreUsuario);
 
-                //Salir al menu o del juego.
-                echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
+                $opcion = jugarUsuario($opcion);
 
                 break;
 
@@ -306,16 +282,7 @@ do {
 
                 print_r($partidas);
 
-
-
-                //Salir al menu o del juego.
-                echo "¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
+                $opcion = jugarUsuario($opcion);
 
                 break;
 
@@ -326,14 +293,8 @@ do {
 
                 // print_r ($palabraAleatoria); //prueba de dato arreglo.//
 
-                //Salir al menu o del juego.
-                echo "¿Desea seguir jugando con este usuario? (si/no): ";
-                $respuestaContinuacion = trim(fgets(STDIN));
-                if(strtolower($respuestaContinuacion) == "si"){
-                    $opcion = 9; 
-                }else{
-                    $opcion = 8;
-                }
+                $opcion = jugarUsuario($opcion);
+
                 break;
         }
     } while($opcion != 8);
@@ -346,3 +307,10 @@ do {
         $opcion = 9;
     }
 } while ($opcion != 8);
+
+/*
+Al momento de jugar, el usuario debe poder elegir la palabra a partir de un número específico. Ejemplo: Jugar con la palabra 1.
+Quitar los recorridos for - break por recorridos parciales.
+Verificar si un jugador ya jugó con esa palabra.
+No permitir agregar al arreglo una palabra que ya está en el arreglo.
+.*/
