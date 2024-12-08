@@ -31,6 +31,32 @@ function cargarColeccionPalabras()
 
     return ($coleccionPalabras);
 }
+
+function analizarPalabraUsada($partidasJugadas, $nombreDelJugador, $palabra){
+    $resultado= false;
+    $i=0;
+    
+    while($i<count($partidasJugadas) && !($resultado)){  
+        $partida = $partidasJugadas[$i];
+        if ($partida["jugador"] === $nombreDelJugador){
+            if($partida["palabraWordix"] === $palabra){
+                $resultado = true;
+            }
+        }
+        $i++;
+    }    
+
+    return $resultado;
+    
+}
+function mostrarArregloColeccion ($palabrasDelArreglo){
+
+    for( $i = 0 ; $i < count($palabrasDelArreglo); $i++) {
+        echo "Palabra ". $i .":" . $palabrasDelArreglo[$i]."\n";
+    }
+
+}
+
 /**Este modulo muestra el menu de seleccion */
 function mostrarMenu(){
         echo"***************************************************\n";
@@ -124,16 +150,37 @@ function mostrarPartidasDeUnJugador($partidas,$nombreDelJugador){
 Este modulo usa como parametros $a y $b para comparar un jugador con el otro.
 y retorna 0,1 o -1.*/
 function cmp($a, $b){
-    if ($a["palabraWordix"] == $b["palabraWordix"] && $a["jugador"] == $b["jugador"]){
-        $orden = 0;
-    }elseif ($a["palabraWordix"] < $b["palabraWordix"] && $a["jugador"] < $b["jugador"]) {
+    $orden = '';
+    if ($a["jugador"] === $b["jugador"]){
+        
+        if ($a["palabraWordix"] > $b["palabraWordix"]){
+            
+            $orden = 0;
+        }
+    }elseif($a["jugador"] < $b["jugador"]){
+        
         $orden = -1;
     }else{
         $orden = 1;
     }
-
     return $orden;
 }
+
+
+function hayPalabra($arregloDePalabras, $añadirPalabra){
+    $i = 0;
+    $estaLaPalabra = false;
+
+    while($i < count($arregloDePalabras) && !$estaLaPalabra){
+        if($arregloDePalabras[$i] === $añadirPalabra){
+            $estaLaPalabra = true;
+        }
+        $i++;
+    }
+
+    return $estaLaPalabra;
+}
+
 
 /* ****COMPLETAR***** */
 
@@ -145,9 +192,10 @@ function cmp($a, $b){
 $palabraElegida;
 $nombreUsuario;
 $respuestaContinuacion;
-$palabraAleatoria;
 $partidaAuscar;
 $primerPartidaGanadora;
+$coleccionPalabras;
+$palabrArregloColeccion = cargarColeccionPalabras();
 //Inicialización de variables:
 $partida;
 $opcion=0;
@@ -170,14 +218,23 @@ do {
 
         switch ($opcion) {
             case 1: 
-                //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-                $palabraElegida = leerPalabra5letras();
+            
+                mostrarArregloColeccion($palabrArregloColeccion);
+                echo "Ingrese el número de la palabra con la que desea jugar (0-" . count($palabrArregloColeccion) - 1 . "): ";
+                $numeroPalabra = solicitarNumeroEntre(0, count($palabrArregloColeccion) - 1); 
 
-                //Guarda la partida jugada en $partida
-                $partida = jugarWordix($palabraElegida, $nombreUsuario);
+                $palabraYaUsada = analizarPalabraUsada($partidas,$nombreUsuario,$palabrArregloColeccion[$numeroPalabra]);
 
-                //Guarda la partida jugada en el arreglo $partidas
-                array_push($partidas,$partida);
+                if($palabraYaUsada){
+                    echo "Esta palabra ya ah sido usada \n";
+                    
+                }else{
+                    $partida = jugarWordix($palabrArregloColeccion[$numeroPalabra], $nombreUsuario);
+                    array_push($partidas,$partida);
+                    
+                }
+
+
 
                 echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
                 $respuestaContinuacion = trim(fgets(STDIN));
@@ -187,15 +244,12 @@ do {
                     $opcion = 8;
                 }
 
-                $contadorDePartidas = $contadorDePartidas + 1;
-
-
                 break;
             case 2: 
                 //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-                $palabraAleatoria = cargarColeccionPalabras();
-                $claveAleatoria = array_rand($palabraAleatoria);
-                $partida = jugarWordix($palabraAleatoria[$claveAleatoria], $nombreUsuario);
+                
+                $claveAleatoria = array_rand($palabrArregloColeccion);
+                $partida = jugarWordix($palabrArregloColeccion[$claveAleatoria], $nombreUsuario);
 
                 array_push($partidas,$partida);
 
@@ -244,29 +298,38 @@ do {
 
             case 4:
                 
-                // Mostrar primera partida ganadora.
-                foreach ($partidas as $puntos) {
-                    if($puntos["puntaje"] > 0){
-                        $primerPartidaGanadora = $puntos;
-                        break;    
-                    }
-                    $numeroDeLaPartidaGanadora = $numeroDeLaPartidaGanadora + 1;
-                }
+                $numeroDeLaPartidaGanadora = 0;  
+                $primerPartidaGanadora = [];  
+                $i = 0;  
+                $partidaGanadoraEncontrada = false;  
+            
+                
+                while ($i < count($partidas)) {
+                    $puntos = $partidas[$i];
 
-                if($primerPartidaGanadora){
+                    if ($puntos["puntaje"] > 0 && !$partidaGanadoraEncontrada) {
+                        $numeroDeLaPartidaGanadora = $i + 1; 
+                        $primerPartidaGanadora = $puntos;
+                        $partidaGanadoraEncontrada = true;  
+                    }
+            
+                    $i++; 
+                }
+            
+                
+                if ($partidaGanadoraEncontrada) {
                     echo "\n***************************************************\n";
-                    echo "-------------PRIMER PARTIDA GANADORA---------------\n";
-                    echo "Partida numero ".$numeroDeLaPartidaGanadora."\n";
-                    echo "Jugador: ". $primerPartidaGanadora["jugador"]. "\n";
-                    echo "Palabra Wordix: ".$primerPartidaGanadora["palabraWordix"]. "\n";
-                    echo "Puntaje: ".$primerPartidaGanadora["puntaje"]. "\n";
-                    echo "Intentos: ".$primerPartidaGanadora["intentos"]. "\n";
+                    echo "-------------PRIMERA PARTIDA GANADORA-------------\n";
+                    echo "Partida número " . $numeroDeLaPartidaGanadora . "\n";
+                    echo "Jugador: " . $primerPartidaGanadora["jugador"] . "\n";
+                    echo "Palabra Wordix: " . $primerPartidaGanadora["palabraWordix"] . "\n";
+                    echo "Puntaje: " . $primerPartidaGanadora["puntaje"] . "\n";
+                    echo "Intentos: " . $primerPartidaGanadora["intentos"] . "\n";
                     echo "***************************************************\n";
-                }else{
+                } else {
                     echo "No hay partida ganadora\n";
                 }
-                
-                //Salir al menu o del juego.
+
                 echo "\n¿Desea seguir jugando con este usuario? (si/no): ";
                 $respuestaContinuacion = trim(fgets(STDIN));
                 if(strtolower($respuestaContinuacion) == "si"){
@@ -315,7 +378,15 @@ do {
             case 7: 
                 //completar qué secuencia de pasos ejecutar si el usuario elige la opción 7
                 $palabraElegida = leerPalabra5Letras();
-                $palabraAleatoria[] = $palabraElegida;
+
+                $condicion = hayPalabra($palabrArregloColeccion, $palabraElegida);
+
+                if($condicion){
+                    echo "Esta palabra ya esta cargada. \n";
+                }else{
+                    echo "La palabra se ah cargado correctamente \n";
+                    array_push($palabrArregloColeccion, $palabraElegida);
+                }
 
                 // print_r ($palabraAleatoria); //prueba de dato arreglo.//
 

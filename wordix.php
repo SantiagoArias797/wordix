@@ -339,50 +339,15 @@ function esIntentoGanado($estructuraPalabraIntento)
 /*Como parametros de este modulo usamos @param int $cantidadIntentos 
 para averiguar los puntos obtenidos por la ronda en que ganaron la partida y @param string $palabra para analizar los puntos con 
 las letras acertadas por el usuario dependiendo del puntaje que otorgue cada una.*/
-function obtenerPuntajeWordix($cantidadIntentos,$palabra) 
-{
+function obtenerPuntajeWordix($cantidadIntentos,$palabra){
     $letra = ''; // char $letra  
-    $puntos = 0; // int $puntos
-    switch($cantidadIntentos){
-        case 1:
-            
-            $puntos= 6;
-
-            break; 
-        case 2:
-            
-            $puntos= 5;
-            
-            break;
-        case 3:
-            
-            $puntos= 4;
-            
-            break;
-        case 4:
-            
-            $puntos= 3;
-            
-            break;
-        case 5:
-            
-            $puntos= 2;
-            
-            break;
-        case 6:
-            
-            $puntos= 1;
-            
-            break;
-        default:
-            
-            $puntos = 0;
-            
-            break;
-
-    }
+    
+    $puntos = 7-$cantidadIntentos;
+    
     for($i = 0; $i < strlen($palabra); $i++){
+        
         $letra = strtolower($palabra[$i]);
+        
         if($letra >= 'a' && $letra <= 'z'){
             
             if($letra == 'a' || $letra == 'e' || $letra == 'i' || $letra == 'o' || $letra == 'u'){
